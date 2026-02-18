@@ -3,46 +3,71 @@ import google.generativeai as genai
 from docx import Document
 from io import BytesIO
 
-# مفتاحك الذي ظهر في صورك السابقة
-API_KEY = "AIzaSyABb7rLJZpOUMnNu6UqoUxLwjFTXHa8KHY"
-genai.configure(api_key=API_KEY)
+# إعدادات الصفحة الاحترافية
+st.set_page_config(page_title="نظام الأستاذة نور", layout="wide", initial_sidebar_state="expanded")
 
-st.set_page_config(page_title="نظام الأستاذ نور", layout="wide")
+# مفتاح الـ API الخاص بك
+genai.configure(api_key="AIzaSyABb7rLJZpOUMnNu6UqoUxLwjFTXHa8KHY")
 
-# القائمة الجانبية المرتبة
+# تصميم الواجهة الجانبية (Sidebar)
 with st.sidebar:
-    st.markdown("<h2 style='text-align: center; color: #FFD700;'>ثانوية خير الأنام</h2>", unsafe_allow_html=True)
-    st.write("---")
-    st.markdown("👨‍🏫 **المدرس:** أ. نور محمد حسن")
+    st.markdown("<h2 style='text-align: center; color: #4A90E2;'>ثانوية خير الأنام</h2>", unsafe_allow_html=True)
+    st.markdown("---")
+    st.info("👨‍🏫 **المدرسة:** نور محمد حسن\n\n📐 **التخصص:** رياضيات")
+    st.write("هذا النظام مدعوم بالذكاء الاصطناعي لمساعدة مدرسي الرياضيات في إعداد الخطط الدراسية حسب المنهج العراقي.")
 
-st.markdown("<h1 style='text-align: center; color: #1E88E5;'>📐 نظام أتمتة خطط الرياضيات</h1>", unsafe_allow_html=True)
+# عنوان الصفحة الرئيسي
+st.markdown("<h1 style='text-align: center; color: #1E88E5;'>📐 نظام أتمتة الخطط الدراسية الذكي</h1>", unsafe_allow_html=True)
+st.write("---")
 
-# التقسيمات (مثل التي في صورتك تماماً)
+# مدخلات المستخدم
 col1, col2 = st.columns(2)
 with col1:
-    grade = st.selectbox("🎯 اختر المرحلة:", ["الثالث المتوسط", "الرابع العلمي", "الخامس العلمي"])
+    grade = st.selectbox("🎯 اختر المرحلة الدراسية:", ["الثالث المتوسط", "الرابع العلمي", "الخامس العلمي"])
 with col2:
-    topic = st.text_input("📝 اكتب اسم الموضوع (مثلاً: المتتابعات):")
+    topic = st.text_input("📝 اكتب عنوان الموضوع (مثال: المتتابعات):")
 
-if st.button("🚀 توليد الخطة وتحميل ملف Word"):
+# زر التشغيل
+if st.button("🚀 توليد الخطة الدراسية الآن"):
     if topic:
-        with st.spinner("⏳ جاري التوليد..."):
+        with st.spinner("⏳ جاري معالجة البيانات وتوليد الخطة..."):
             try:
-                # هذا السطر هو الذي يحل خطأ 404 نهائياً
-                model = genai.GenerativeModel('gemini-1.5-flash')
-                response = model.generate_content(f"اكتب خطة درس لموضوع {topic} لصف {grade} للمنهج العراقي.")
+                # استخدام الموديل الصحيح بمساره الكامل
+                model = genai.GenerativeModel('models/gemini-1.5-flash')
                 
-                if response.text:
-                    st.success("✅ تم التوليد بنجاح!")
-                    st.markdown(response.text)
-
-                    # إنشاء ملف Word
-                    doc = Document()
-                    doc.add_heading(f"خطة درس: {topic}", 0)
-                    doc.add_paragraph(response.text)
-                    buf = BytesIO()
-                    doc.save(buf)
-                    st.download_button("📥 تحميل ملف Word", data=buf.getvalue(), file_name=f"خطة_{topic}.docx")
-                    st.balloons()
+                prompt = f"اكتب خطة درس نموذجية واحترافية لموضوع {topic} لصف {grade} حسب المنهج العراقي. " \
+                         f"يجب أن تتضمن الخطة: الأهداف السلوكية، الوسائل التعليمية، التمهيد المشوق، " \
+                         f"عرض المادة العلمية بالتفصيل، والخاتمة مع التقويم."
+                
+                response = model.generate_content(prompt)
+                
+                # عرض النتيجة
+                st.success("✅ تم توليد الخطة بنجاح!")
+                st.markdown(response.text)
+                
+                # إنشاء ملف Word للتحميل
+                doc = Document()
+                doc.add_heading(f"خطة درس: {topic}", 0)
+                doc.add_paragraph(f"المرحلة: {grade}")
+                doc.add_paragraph(f"إعداد الأستاذ: نور محمد حسن")
+                doc.add_paragraph("---")
+                doc.add_paragraph(response.text)
+                
+                buf = BytesIO()
+                doc.save(buf)
+                st.download_button(
+                    label="📥 تحميل الخطة (ملف Word للطباعة)",
+                    data=buf.getvalue(),
+                    file_name=f"خطة_{topic}.docx",
+                    mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                )
+                st.balloons()
+                
             except Exception as e:
-                st.error(f"حدث خطأ في الاتصال: {str(e)}")
+                st.error(f"حدث خطأ فني: {e}")
+    else:
+        st.warning("الرجاء كتابة اسم الموضوع أولاً لتوليد الخطة.")
+
+# تذييل الصفحة
+st.markdown("---")
+st.markdown("<p style='text-align: center; color: gray;'>تم التطوير بواسطة الأستاذة نور محمد حسن بالتعاون مع Gemini 2026</p>", unsafe_allow_html=True)
