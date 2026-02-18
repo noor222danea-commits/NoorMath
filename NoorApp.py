@@ -7,7 +7,7 @@ from io import BytesIO
 st.set_page_config(page_title="نظام الأستاذة نور", layout="wide")
 
 # مفتاح الـ API الخاص بك
-genai.configure(api_key="AIzaSyABb7rLJZpOUMnNu6UqoUxLwjFTXHa8KHY")
+genai.configure(api_key="AIzaSyA_8-8P0p4Jz1-k-S5M-H3f_pLp9N6A")
 
 # تصميم الواجهة الجانبية (Sidebar)
 with st.sidebar:
@@ -71,4 +71,5 @@ if st.button("🚀 توليد الخطّة الدراسية الآن"):
 # تذييل الصفحة
 st.markdown("---")
 st.markdown("<p style='text-align: center; color: gray;'>تم التطوير بواسطة الأستاذة نور محمد حسن بالتعاون مع Gemini 2026</p>", unsafe_allow_html=True)
+
 
