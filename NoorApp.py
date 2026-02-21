@@ -44,7 +44,7 @@ def create_word_rtl(text, topic):
 
 # 4. القائمة الجانبية مع شعار المدرسة
 with st.sidebar:
-    st.image("https://raw.githubusercontent.com/NoorMath/NoorApp.py/main/school_logo.jpg", width=160)
+    st.image("logo.png.jpg", width=160)
     st.markdown("<h2 style='color: gold; text-align: center;'>لوحة التحكم</h2>", unsafe_allow_html=True)
     st.write("---")
     grade = st.selectbox("المرحلة الدراسية:", ["الثالث المتوسط", "الرابع العلمي", "الخامس العلمي"])
@@ -105,5 +105,6 @@ with tab2:
                 st.chat_message("assistant").write(answer)
 
 st.markdown("<br><hr><center><b>جميع الحقوق محفوظة للأستاذة نور محمد حسن © 2026</b></center>", unsafe_allow_html=True)
+
 
 
