@@ -5,9 +5,9 @@ import google.generativeai as genai
 st.set_page_config(page_title="نظام الأستاذة نور", page_icon="📐")
 
 # وضع المفتاح الخاص بكِ هنا
-MY_API_KEY = "ضعي_مفتاحكِ_هنا"
+MY_API_KEY = "AIzaSyARodwRWKbnXiFTBvTYaFfkcwgveIcHzpY"
 
-genai.configure(api_key=AIzaSyARodwRWKbnXiFTBvTYaFfkcwgveIcHzpY)
+genai.configure(api_key=MY_API_KEY)
 
 st.title("✨ نظام الأستاذة نور محمد حسن")
 st.markdown("---")
