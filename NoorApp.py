@@ -5,7 +5,7 @@ import google.generativeai as genai
 st.set_page_config(page_title="نظام الأستاذة نور", layout="centered")
 
 # الربط بالمفتاح (ضعي مفتاحكِ الجديد هنا بدقة)
-genai.configure(api_key="ضعي_مفتاحكِ_هنا")
+genai.configure(api_key="AIzaSyARodwRWKbnXiFTBvTYaFfkcwgveIcHzpY")
 
 st.title("✨ نظام الأستاذة نور محمد حسن")
 st.subheader("مساعدة ذكية لإعداد خطط دروس الرياضيات")
@@ -24,3 +24,4 @@ if st.button("توليد الخطة النموذجية"):
             st.error(f"حدث خطأ: {e}")
     else:
         st.warning("الرجاء كتابة اسم الموضوع")
+
